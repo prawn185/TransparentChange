@@ -38,6 +38,11 @@ new class extends Component
                             py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground
                              focus:bg-accent focus:text-accent-foreground focus:outline-none">Impact</a>
         </li>
+        <li><a href="/roadmap"
+               class="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4
+                            py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground
+                             focus:bg-accent focus:text-accent-foreground focus:outline-none">Roadmap</a>
+        </li>
         <li><a href="/login"
                class="group inline-flex h-9 w-max items-center justify-center rounded-md bg-primary px-4
                             py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90

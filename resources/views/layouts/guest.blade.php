@@ -13,6 +13,7 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
 </head>
 <body class="antialiased font-sans">
 <div class="flex min-h-[100dvh] flex-col">
@@ -27,7 +28,7 @@
                 </svg>
                 <span class="ml-2 text-lg font-semibold">Transparent Change</span>
             </a>
-            @include('livewire.layout.guest-navigation')
+            @include('livewire.layout.navigation')
         </div>
 
     </header>
@@ -42,5 +43,6 @@
 
 </div>
 @stack('scripts')
+@livewireScripts
 </body>
 </html>

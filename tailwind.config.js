@@ -1,7 +1,6 @@
-
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
-
+import typography from '@tailwindcss/typography';
 /** @type {import('tailwindcss').Config} */
 export default {
     darkMode: 'selector',
@@ -73,7 +72,10 @@ export default {
             },
         },
     },
-    plugins: [forms],
+    plugins: [
+        forms,
+        typography,
+    ],
     fontFamily: {
         sans: ['Figtree', ...defaultTheme.fontFamily.sans],
     },

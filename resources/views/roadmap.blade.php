@@ -1,19 +1,26 @@
-<div class="container my-4">
-    <h2 class="text-2xl font-bold mb-4">Transparent Change Task Board</h2>
+@php
+    $markdown = File::get(resource_path('roadmap.md'));
+    $totalTasks = substr_count($markdown, '- [ ]') + substr_count($markdown, '- [x]');
+    $completedTasks = substr_count($markdown, '- [x]');
+    $progress = $totalTasks > 0 ? ($completedTasks / $totalTasks) * 100 : 0;
+@endphp
+<x-guest-layout>
+    <div class="container mx-auto my-8 px-4">
+        <h2 class="text-3xl font-bold mb-6 text-gray-800">Transparent Change Task Board</h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        @foreach ($statuses as $status)
-            <div class="bg-gray-100 p-4 rounded">
-                <h3 class="font-bold mb-2">{{ $status }}</h3>
-                @if(isset($tasks[$status]))
-                    @foreach ($tasks[$status] as $task)
-                        <div class="bg-white p-2 mb-2 rounded shadow">
-                            <p class="font-semibold">{{ $task['title'] }}</p>
-                            <p class="text-sm text-gray-600">{{ $task['description'] }}</p>
-                        </div>
-                    @endforeach
-                @endif
+        <div class="mb-6">
+            <div class="flex justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Progress</span>
+                <span class="text-sm font-medium text-gray-700">{{ round($progress) }}%</span>
             </div>
-        @endforeach
+            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ $progress }}%"></div>
+            </div>
+            <div class="text-sm text-gray-500 mt-2">{{ $completedTasks }} of {{ $totalTasks }} tasks completed</div>
+        </div>
+
+        <div class="markdown-content prose prose-sm sm:prose lg:prose-lg xl:prose-xl max-w-none">
+            {!! Str::markdown($markdown) !!}
+        </div>
     </div>
-</div>
+</x-guest-layout>

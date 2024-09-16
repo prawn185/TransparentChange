@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -13,12 +14,13 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
 </head>
 <body class="antialiased font-sans">
 <div class="flex min-h-[100dvh] flex-col">
     <header class="bg-background px-4 py-3 shadow-sm sm:px-6 lg:px-8">
         <div class="container mx-auto flex items-center justify-between">
-            <a href="#" class="flex items-center">
+            <a href="/" class="flex items-center">
                 <svg class="h-8 w-8 text-primary" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                      stroke-linejoin="round">
@@ -27,8 +29,9 @@
                 </svg>
                 <span class="ml-2 text-lg font-semibold">Transparent Change</span>
             </a>
-
+            @include('livewire.layout.navigation')
         </div>
+
     </header>
 
     <!-- Page Content -->
@@ -37,6 +40,10 @@
     </main>
 
     @include('livewire.layout.footer')
+
+
 </div>
+@stack('scripts')
+@livewireScripts
 </body>
 </html>
