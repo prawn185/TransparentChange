@@ -4,10 +4,14 @@ use App\Http\Controllers\Livewire\TaskBoard;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\DonationController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 
 Auth::routes();
 
-
+// Replace the default auth routes with Livewire components
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 
 Route::view('/', 'welcome');
 
