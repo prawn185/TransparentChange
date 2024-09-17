@@ -4,10 +4,14 @@ namespace App\Livewire;
 
 use Livewire\Component;
 
-class DonationView extends Component
+class AllocatedView extends Component
 {
     public function render()
     {
-        return view('livewire.donation-view');
+
+        $allocated = auth()->user()->donations()->where('status', 'allocated')->get();
+        return view('livewire.allocated-view', compact('allocated'));
     }
+
+
 }

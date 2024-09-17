@@ -12,7 +12,7 @@ class DonationController extends Controller
      */
     public function index()
     {
-        $donations = auth()->user()->donations()->latest()->paginate(15);
+        $donations = auth()->user()->donations;
         return response()->json($donations);
     }
 
@@ -21,31 +21,8 @@ class DonationController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'amount' => 'required|numeric|min:0.01',
-            'is_recurring' => 'boolean',
-            'frequency' => 'required_if:is_recurring,true|in:weekly,monthly',
-        ]);
-
-        $donation = auth()->user()->donations()->create([
-            'amount' => $validated['amount'],
-            'status' => 'pending',
-            'is_recurring' => $validated['is_recurring'] ?? false,
-            'frequency' => $validated['frequency'] ?? null,
-            'next_donation_date' => $validated['is_recurring'] ? $this->calculateNextDonationDate($validated['frequency']) : null,
-        ]);
-
-        ProcessPennyAllocation::dispatch($donation);
-
-        return response()->json($donation, 201);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        $donation = Donation::create($request->all());
+        return $donation;
     }
 
     /**
@@ -65,14 +42,6 @@ class DonationController extends Controller
         ]);
 
         return response()->json($donation);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 
     private function calculateNextDonationDate($frequency)

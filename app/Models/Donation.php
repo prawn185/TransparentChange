@@ -27,4 +27,9 @@ class Donation extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function pennyTrackers()
+    {
+        return $this->hasMany(PennyTracker::class);
+    }
 }

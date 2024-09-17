@@ -22,8 +22,8 @@ class PennyTracker extends Model
         return $this->belongsTo(Donation::class);
     }
 
-    public function charity()
+    public function scopeAllocated($query)
     {
-        return $this->belongsTo(Charity::class);
+        return $query->where('status', 'allocated');
     }
 }

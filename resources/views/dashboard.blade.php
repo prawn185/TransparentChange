@@ -17,6 +17,9 @@
                 <div class="p-6">
                     @livewire('donation-history')
                 </div>
+                <div class="p-6">
+                    @livewire('allocated-view')
+                </div>
             </div>
         </div>
     </div>

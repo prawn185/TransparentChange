@@ -1,8 +1,10 @@
 <?php
 namespace App\Livewire;
 
+use App\Http\Controllers\DonationController;
 use Livewire\Component;
-use App\Models\Donation;
+use Illuminate\Http\Request;
+use App\Http\Controllers\PennyTrackerController;
 
 class DonationButton extends Component
 {
@@ -37,20 +39,35 @@ class DonationButton extends Component
     {
         $this->validate();
 
-        auth()->user()->donations()->create([
+        // Store the donation
+        $donationController = new DonationController();
+        $donation = $donationController->store(new Request([
             'amount' => $this->amount,
-            'status' => 'pending',
             'is_recurring' => $this->isRecurring,
-            'frequency' => $this->isRecurring ? $this->frequency : null,
-            'next_donation_date' => $this->isRecurring ? $this->calculateNextDonationDate() : null,
-        ]);
+            'frequency' => $this->frequency,
+            'user_id' => auth()->user()->id,
+            'status' => 'pending',
+        ]));
+
+        // Call PennyController
+        $pennyTrackerController = new PennyTrackerController();
+        $pennyTrackerController->processDonation($donation);
 
         $this->closeModal();
         session()->flash('message', 'Donation successful!');
     }
-
+    
     private function calculateNextDonationDate()
     {
-        return $this->frequency === 'weekly' ? now()->addWeek() : now()->addMonth();
+        $currentDate = now();
+        $nextDonationDate = $currentDate->copy();
+
+        if ($this->frequency === 'weekly') {
+            $nextDonationDate->addWeek();
+        } elseif ($this->frequency === 'monthly') {
+            $nextDonationDate->addMonth();
+        }
+
+        return $nextDonationDate;
     }
 }
